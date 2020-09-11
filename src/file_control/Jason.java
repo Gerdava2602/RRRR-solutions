@@ -14,21 +14,25 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Jason {
 
     ArrayList files;
-
+    FileProcessor fp;
+    
     public Jason() {
         files = new ArrayList();
+        fp = new FileProcessor();
     }
 
-    public static Nodo convert(Nodo n, File users, File posts, File comments) throws FileNotFoundException, IOException {
-
-        BufferedReader br = new BufferedReader(new FileReader(users));
-        String line = br.readLine();
+    public Nodo convert(Nodo n, File users) throws FileNotFoundException, IOException {
+        HashMap mp = new HashMap();
+        fp.files.add(users);
+        mp = fp.processor();
+        /*
         System.out.println(line);
         Usuario user = null;
         Matcher beginningM, infoM, endingM;
@@ -171,7 +175,7 @@ public class Jason {
                 }
             }
         }
-
+        */
         return n;
     }
 }

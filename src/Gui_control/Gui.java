@@ -184,7 +184,7 @@ public class Gui extends javax.swing.JFrame {
             System.out.println("Hey papi, no has montado una verga");
         }else{
             try {
-                Jason.convert(null,selected,null,null);
+                jason.convert(null,selected);
             } catch (IOException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
