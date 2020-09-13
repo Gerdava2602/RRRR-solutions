@@ -31,28 +31,30 @@ public class FileProcessor {
         files = new ArrayList();
     }
     
-    public HashMap processor() throws IOException{
-        HashMap map = new HashMap();
-        extract(files.get(0));
+    public void processor(String string) throws IOException{
+        //Diccionario
         
         
-        return map;
     }
 
-    private void extract(File file) throws IOException {
+    public ArrayList extract(File file) throws IOException {
+        ArrayList<HashMap> array = new ArrayList();
+        Pattern llaves,inicio,fin, valores;
+        Matcher bloque, matcherK, matcherV;
+        
         try {
             br = new BufferedReader(new FileReader (file));
         } catch (FileNotFoundException ex) {
             System.out.println("Hubo un problema con el file");
         }
-        Pattern llaves,inicio,fin, valores;
-        Matcher bloque;
-        llaves = Pattern.compile("\"(.+?)\":");
-        valores = Pattern.compile(": (.+)");
+
         inicio = Pattern.compile("\\{");
-        
+        llaves = Pattern.compile("\"(.+?)\":");
+        valores = Pattern.compile(": ([^\\{\\}]+)");
+        HashMap map = new HashMap();
         String line = br.readLine();
         int count = 0;
+        
         while(line != null){
             bloque = inicio.matcher(line);
             if(bloque.find()){
@@ -63,8 +65,16 @@ public class FileProcessor {
                 close = Pattern.compile("\\}");
                 line = br.readLine();
                 while(count != 0 && line!=null){
+                    map = new HashMap();
                     opened = open.matcher(line);
                     closed = close.matcher(line);
+                    matcherK = llaves.matcher(line);
+                    matcherV = valores.matcher(line);
+                    if(matcherK.find() && matcherV.find()){
+                        String value = depurar(matcherV.group(1));
+                        map.put(matcherK.group(1), value);
+                        System.out.println(matcherK.group(1)+"/"+value);
+                    }
                     sb.append(line+"\n");
                     if(opened.find())
                         count++;
@@ -72,12 +82,23 @@ public class FileProcessor {
                         count--;
                      line = br.readLine();
                 }
+                array.add(map);
+                sb.delete(0, sb.length()-1);
                 count =0;
             }else{
                 line = br.readLine();
             }
         }
-        System.out.println(sb.toString());
+        
+        return array;
+    }
+
+    private String depurar(String group) {
+        Pattern depura = Pattern.compile("([^\\{,\"]+)");
+        Matcher matcher = depura.matcher(group);
+        if(matcher.find())
+            System.out.println("\n");
+        return matcher.group(1);
     }
     
 }
