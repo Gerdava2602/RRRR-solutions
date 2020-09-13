@@ -24,7 +24,7 @@ import javax.swing.filechooser.FileFilter;
 public class Gui extends javax.swing.JFrame {
     
     SaveStage saveS;
-    File selected;
+    File users, posts, comments;
     Jason jason;
     /**
      * Creates new form Gui
@@ -87,6 +87,11 @@ public class Gui extends javax.swing.JFrame {
         text = new javax.swing.JTextArea();
         save = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +120,26 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Choose");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Choose");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Users");
+
+        jLabel2.setText("Posts");
+
+        jLabel3.setText("Comments");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,6 +150,8 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1154, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -133,15 +160,37 @@ public class Gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(26, 26, 26))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                .addGap(65, 65, 65)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(save)
                     .addComponent(jButton2))
@@ -157,8 +206,8 @@ public class Gui extends javax.swing.JFrame {
         text.setText("");
         try {
             //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
-            selected = createFileChooser(this);
-            br = new BufferedReader(new FileReader(selected));
+            users = createFileChooser(this);
+            br = new BufferedReader(new FileReader(users));
             String st; 
             while ((st = br.readLine()) != null) 
                text.append(st+"\n");
@@ -180,16 +229,60 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_saveActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(selected == null){
+        if(users == null || comments == null || posts == null){
             System.out.println("Hey papi, no has montado una verga");
         }else{
             try {
-                jason.convert(null,selected);
+                jason.convert(null,users, posts, comments);
             } catch (IOException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+                //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            posts = createFileChooser(this);
+            br = new BufferedReader(new FileReader(posts));
+            String st; 
+            while ((st = br.readLine()) != null) 
+               text.append(st+"\n");
+        //Catchs para los dos tipos de excepciones que podríamos encontrar    
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+                //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            comments = createFileChooser(this);
+            br = new BufferedReader(new FileReader(comments));
+            String st; 
+            while ((st = br.readLine()) != null) 
+               text.append(st+"\n");
+        //Catchs para los dos tipos de excepciones que podríamos encontrar    
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,6 +325,11 @@ public class Gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JButton save;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JTextArea text;

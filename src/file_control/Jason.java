@@ -22,20 +22,25 @@ public class Jason {
 
     ArrayList<File> files;
     FileProcessor fp;
-    
+
     public Jason() {
         files = new ArrayList();
         fp = new FileProcessor();
     }
 
-    public Nodo convert(Nodo n, File users) throws FileNotFoundException, IOException {
-        fp.files.add(users);
-        ArrayList<HashMap>maps = fp.extract(users);
-        
-        for (HashMap map : maps) {
-            
+    public Nodo convert(Nodo n, File users, File posts, File comments) throws FileNotFoundException, IOException {
+        files.add(users);
+        files.add(posts);
+        files.add(comments);
+
+        for (File file : files) {
+
+            ArrayList<HashMap> maps = fp.extract(file);
+
+            for (HashMap map : maps) {
+
+            }
         }
-        
         return n;
     }
 }
