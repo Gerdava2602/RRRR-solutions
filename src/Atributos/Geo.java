@@ -13,10 +13,24 @@ public class Geo {
     String latitud;
     String longitud;
 
-    public Geo() {
-        
+    public Geo(String latitud, String longitud) {
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
+    public Geo() {
+    }
+
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(" Geo: "+"\n");
+        sb.append("     latitud:"+latitud+"\n");
+        sb.append("     longitud:"+longitud+"\n");
+        return sb.toString();
+    }
+    
     public String getLatitud() {
         return latitud;
     }

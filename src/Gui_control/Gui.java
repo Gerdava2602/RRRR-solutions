@@ -5,12 +5,17 @@
  */
 package Gui_control;
 
+import Nodos.Arbol;
+import Nodos.Nodo;
+import Nodos.Publicacion;
+import Nodos.Usuario;
 import file_control.Jason;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -24,8 +29,9 @@ import javax.swing.filechooser.FileFilter;
 public class Gui extends javax.swing.JFrame {
     
     SaveStage saveS;
-    File selected;
+    File users, posts, comments;
     Jason jason;
+    Arbol arbol;
     /**
      * Creates new form Gui
      */
@@ -33,6 +39,13 @@ public class Gui extends javax.swing.JFrame {
         initComponents();
         saveS= new SaveStage(this);
         jason = new Jason();
+        
+        arbol = new Arbol();
+        
+        users = new File("C:\\Users\\German David\\Desktop\\user.txt");
+        posts = new File("C:\\Users\\German David\\Desktop\\posts.txt");
+        comments = new File("C:\\Users\\German David\\Desktop\\comments.txt");
+        
     }
 
     //Este método crea el fileChooser para poder navegar y encontrar los archivos
@@ -87,58 +100,115 @@ public class Gui extends javax.swing.JFrame {
         text = new javax.swing.JTextArea();
         save = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 153));
-        jButton1.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/archivo.png"))); // NOI18N
-        jButton1.setText("Escoger archivo");
+        jButton1.setText("Choose");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, 60));
 
         text.setColumns(20);
         text.setRows(5);
         scroll.setViewportView(text);
 
-        getContentPane().add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 700, 290));
-
-        save.setBackground(new java.awt.Color(0, 102, 153));
-        save.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        save.setForeground(new java.awt.Color(255, 255, 255));
-        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
-        save.setText("Archivos guardados");
+        save.setText("Save");
         save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveActionPerformed(evt);
             }
         });
-        getContentPane().add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 250, 60));
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 153));
-        jButton2.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/convertir.png"))); // NOI18N
-        jButton2.setText("Convertir");
+        jButton2.setText("Convert");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 190, 60));
 
-        jLabel1.setFont(new java.awt.Font("Bahnschrift", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Bik.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
+        jButton3.setText("Choose");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Choose");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Users");
+
+        jLabel2.setText("Posts");
+
+        jLabel3.setText("Comments");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1154, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(save)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(26, 26, 26))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(save)
+                    .addComponent(jButton2))
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -149,8 +219,8 @@ public class Gui extends javax.swing.JFrame {
         text.setText("");
         try {
             //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
-            selected = createFileChooser(this);
-            br = new BufferedReader(new FileReader(selected));
+            users = createFileChooser(this);
+            br = new BufferedReader(new FileReader(users));
             String st; 
             while ((st = br.readLine()) != null) 
                text.append(st+"\n");
@@ -172,16 +242,60 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_saveActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(selected == null){
+        if(users == null /*|| comments == null || posts == null*/){
             System.out.println("Hey papi, no has montado una verga");
         }else{
             try {
-                Jason.convert(null,selected,null,null);
+                arbol = jason.convert(arbol,users, posts, comments);
             } catch (IOException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+                //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            posts = createFileChooser(this);
+            br = new BufferedReader(new FileReader(posts));
+            String st; 
+            while ((st = br.readLine()) != null) 
+               text.append(st+"\n");
+        //Catchs para los dos tipos de excepciones que podríamos encontrar    
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+                //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            comments = createFileChooser(this);
+            br = new BufferedReader(new FileReader(comments));
+            String st; 
+            while ((st = br.readLine()) != null) 
+               text.append(st+"\n");
+        //Catchs para los dos tipos de excepciones que podríamos encontrar    
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,7 +338,11 @@ public class Gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JButton save;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JTextArea text;

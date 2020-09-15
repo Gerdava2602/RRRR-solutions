@@ -24,9 +24,21 @@ public class Comentario extends Nodo{
         this.name = name;
         this.email = email;
         this.body = body;
-        this.hijos = null;
     }
 
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Comentario\n");
+        sb.append("postId: "+postId+"\n");
+        sb.append("Id: "+id+"\n");
+        sb.append("Name: "+name+"\n");
+        sb.append("Email: "+email+"\n");
+        sb.append("Body: "+body+"\n");
+        
+        return sb.toString();
+    }
+    
     public int getPostId() {
         return postId;
     }
