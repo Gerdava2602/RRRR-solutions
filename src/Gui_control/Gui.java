@@ -5,12 +5,17 @@
  */
 package Gui_control;
 
+import Nodos.Arbol;
+import Nodos.Nodo;
+import Nodos.Publicacion;
+import Nodos.Usuario;
 import file_control.Jason;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -26,6 +31,7 @@ public class Gui extends javax.swing.JFrame {
     SaveStage saveS;
     File users, posts, comments;
     Jason jason;
+    Arbol arbol;
     /**
      * Creates new form Gui
      */
@@ -33,6 +39,13 @@ public class Gui extends javax.swing.JFrame {
         initComponents();
         saveS= new SaveStage(this);
         jason = new Jason();
+        
+        arbol = new Arbol();
+        
+        users = new File("C:\\Users\\German David\\Desktop\\user.txt");
+        posts = new File("C:\\Users\\German David\\Desktop\\posts.txt");
+        comments = new File("C:\\Users\\German David\\Desktop\\comments.txt");
+        
     }
 
     //Este método crea el fileChooser para poder navegar y encontrar los archivos
@@ -229,11 +242,11 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_saveActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(users == null || comments == null || posts == null){
+        if(users == null /*|| comments == null || posts == null*/){
             System.out.println("Hey papi, no has montado una verga");
         }else{
             try {
-                jason.convert(null,users, posts, comments);
+                arbol = jason.convert(arbol,users, posts, comments);
             } catch (IOException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }

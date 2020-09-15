@@ -5,6 +5,8 @@
  */
 package file_control;
 
+import Nodos.Arbol;
+import Nodos.Comentario;
 import Nodos.Nodo;
 import Nodos.Publicacion;
 import Nodos.Usuario;
@@ -28,19 +30,52 @@ public class Jason {
         fp = new FileProcessor();
     }
 
-    public Nodo convert(Nodo n, File users, File posts, File comments) throws FileNotFoundException, IOException {
+    public Arbol convert(Arbol a, File users, File posts, File comments) throws FileNotFoundException, IOException {
         files.add(users);
         files.add(posts);
         files.add(comments);
 
         for (File file : files) {
-
-            ArrayList<HashMap> maps = fp.extract(file);
-
-            for (HashMap map : maps) {
-
+            if (file != null) {
+                ArrayList<HashMap> maps = fp.extract(file);
+                
+                for (HashMap map : maps) {
+                    a = creaNodo(a, map);
+                }
             }
         }
-        return n;
+        return a;
+    }
+
+    private Arbol creaNodo(Arbol a, HashMap map) {
+        if (map.containsKey("username")){
+            Usuario usuario = new Usuario(Integer.parseInt((String) map.get("id")),
+                                          (String)(map.get("name")),
+                                          (String)(map.get("username")),
+                                          (String)(map.get("email")),
+                                          (String)(map.get("street")),
+                                          (String)(map.get("suite")),
+                                          (String)(map.get("city")),
+                                          (String)(map.get("zipcode")),
+                                          (String)(map.get("lat")),
+                                          (String)(map.get("lng")),
+                                          (String)(map.get("phone")),
+                                          (String)(map.get("website")),
+                                          (String)(map.get("nameC")),
+                                          (String)(map.get("catchPhrase")),
+                                          (String)(map.get("bs")));
+            a.Agregar(usuario);
+        }else if (map.containsKey("userId")){
+            
+            Publicacion publicacion = new Publicacion(Integer.parseInt((String) map.get("userId")),Integer.parseInt((String) map.get("id")), (String)(map.get("title")), (String)(map.get("body")));
+            a.Agregar(publicacion);
+
+            
+        }else if(map.containsKey("postId")){
+            Comentario c = new Comentario(Integer.parseInt((String) map.get("postId")),Integer.parseInt((String) map.get("id")), (String)(map.get("name")), (String)(map.get("email")), (String)(map.get("body")));
+            a.Agregar(c);
+        }
+        
+        return a;
     }
 }

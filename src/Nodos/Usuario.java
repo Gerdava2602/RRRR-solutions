@@ -8,6 +8,7 @@ package Nodos;
 import Atributos.Company;
 import Atributos.Direccion;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -23,9 +24,44 @@ public class Usuario extends Nodo{
     String website;
     Company company;
     Direccion direccion;
+    LinkedList<Publicacion> posts;
     
     public Usuario() {
+        posts = new LinkedList();
+    }
+
+    public Usuario(int id, String name, String username, String email, 
+                   String street, String suite,String city, String zipcode,
+                   String lat, String lng, String phone, String website ,
+                   String nameC, String catchPhrase, String bs) {
         
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.website = website;
+        company = new Company();
+        company.setName(nameC);
+        company.setCatchPhrase(catchPhrase);
+        company.setBs(bs);
+        direccion = new Direccion(street, suite, city, zipcode, lat, lng);
+        posts = new LinkedList();
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Id: "+id+"\n");
+        sb.append("Nombre: "+name+"\n");
+        sb.append("username: "+username+"\n");
+        sb.append("email: "+email+"\n");
+        sb.append(company.toString());
+        sb.append("phone: "+phone+"\n");
+        sb.append("website: "+website+"\n");
+        sb.append(direccion.toString());
+        
+        return sb.toString();
     }
 
     public int getId() {
@@ -94,8 +130,8 @@ public class Usuario extends Nodo{
 
     
 
-    public ArrayList getPosts() {
-        return hijos;
+    public LinkedList<Publicacion> getPosts() {
+        return posts;
     }
 
     public void createAddress() {

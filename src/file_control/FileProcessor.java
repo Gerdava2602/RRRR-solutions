@@ -64,16 +64,20 @@ public class FileProcessor {
                 open = Pattern.compile("\\{");
                 close = Pattern.compile("\\}");
                 line = br.readLine();
+                map = new HashMap();
                 while(count != 0 && line!=null){
-                    map = new HashMap();
                     opened = open.matcher(line);
                     closed = close.matcher(line);
                     matcherK = llaves.matcher(line);
                     matcherV = valores.matcher(line);
                     if(matcherK.find() && matcherV.find()){
                         String value = depurar(matcherV.group(1));
-                        map.put(matcherK.group(1), value);
-                        System.out.println(matcherK.group(1)+"/"+value);
+                        if(map.containsKey("name") && matcherK.group(1).equals("name"))
+                            map.put("nameC", value);
+                        else
+                            map.put(matcherK.group(1), value);
+                        //System.out.println(matcherK.group(1)+"/"+value);
+                        
                     }
                     sb.append(line+"\n");
                     if(opened.find())
@@ -94,10 +98,10 @@ public class FileProcessor {
     }
 
     private String depurar(String group) {
-        Pattern depura = Pattern.compile("([^\\{,\"]+)");
+        Pattern depura = Pattern.compile("([^\\{,\"\\n]+)");
         Matcher matcher = depura.matcher(group);
         if(matcher.find())
-            System.out.println("\n");
+            return matcher.group(1);
         return matcher.group(1);
     }
     

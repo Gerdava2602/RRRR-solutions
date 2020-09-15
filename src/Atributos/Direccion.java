@@ -25,9 +25,30 @@ public class Direccion {
     }
 
     public Direccion() {
-        
+        geo = new Geo();
     }
 
+    public Direccion(String street, String suite, String city, String zipcode, String lat, String lng) {
+        this.street = street;
+        this.suite = suite;
+        this.city = city;
+        this.zipcode = zipcode;
+        geo = new Geo(lat,lng);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Dirección: "+"\n");
+        sb.append(" street: "+street+"\n");
+        sb.append(" suite: "+suite+"\n");
+        sb.append(" city: "+city+"\n");
+        sb.append(" zipcode: "+zipcode+"\n");
+        sb.append(" "+geo.toString());
+        
+        return sb.toString();
+    }
+    
     public String getStreet() {
         return street;
     }

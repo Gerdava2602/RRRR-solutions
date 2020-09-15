@@ -6,32 +6,46 @@
 package Nodos;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
  * @author German David
  */
 public class Nodo {
-    
-    ArrayList hijos;
-    
-    public Nodo(){    
-        hijos = new ArrayList();
+
+    private LinkedList<Usuario> usuarios;
+
+    public Nodo() {
+        usuarios = new LinkedList();
     }
-    
-    public void addHijo(Nodo hijo){
-        hijos.add(hijo);
-    }
-    
-    public Nodo findId(int id){
-        Usuario hijoN;
-        for (Object hijo : hijos) {
-            hijoN = (Usuario)hijo;
-            if(hijoN.getId()== id){
-                return hijoN;
+
+    public Usuario getUsuario(int id) {
+        for (Usuario u : usuarios) {
+            if (id == u.getId()) {
+                return u;
             }
         }
+        System.out.println("nulo");
         return null;
     }
+
+    public Publicacion getPost(int id) {
+        for (Usuario u : usuarios) {
+            for (Publicacion p : u.getPosts()) {
+                if (p.getId() == id) {
+                    return p;
+                }
+            }
+        }
+        System.out.println("nulo");
+        return null;
+    }
+
+    public LinkedList<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    
     
 }
