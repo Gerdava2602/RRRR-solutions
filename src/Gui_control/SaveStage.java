@@ -14,6 +14,8 @@ import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -32,6 +34,7 @@ public class SaveStage extends javax.swing.JFrame {
     File directory;
     File[] saved;
     JFrame principle;
+    String[] nameList;
     Map<String, ImageIcon> imageMap;
     /**
      * Creates new form SaveStage
@@ -42,11 +45,10 @@ public class SaveStage extends javax.swing.JFrame {
         principle = frame;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        directory = new File("C:\\Users\\German David\\Desktop\\Trabajos\\2020-3\\Datos II\\GUIDemo\\Save posts");
+        directory = new File("C:\\Users\\German David\\Desktop\\Trabajos\\2020-3\\Datos II\\Lab01_GermanVargas_RaulLopez_SebastianGonzalez\\saved");
         saved = directory.listFiles(new FileFilter() {
             
         @Override
-        //Verifica que solo se encuentren archivos txt
         public boolean accept(File f) {
             if (f.isDirectory()) {
                 return true;
@@ -55,18 +57,28 @@ public class SaveStage extends javax.swing.JFrame {
             return name.endsWith(".txt");
         }
     });
+        
         DefaultListModel model = new DefaultListModel();
         savedList.setModel(model);
-        String[] nameList = new String[2];
-        int i=0;
-        for (File file : saved) {
-            nameList[i]=file.toString();
-            i++;
-        }
         
+        ArrayList<String> nameArray = new ArrayList();
+        for (File file : saved) {
+            nameArray.add(file.toString());
+        }
+        nameList=convertToArray(nameArray);
         savedList.setListData(nameList);
         imageMap = createImageMap(nameList);
         savedList.setCellRenderer(new ListRenderer());
+    }
+
+    private String[] convertToArray(ArrayList<String> nameArray) {
+            String[] List = new String[nameArray.size()];
+            int i=0;
+            for (String string : nameArray) {
+                List[i]=string;
+                i++;
+            }
+            return List;
     }
 
         public class ListRenderer extends DefaultListCellRenderer {

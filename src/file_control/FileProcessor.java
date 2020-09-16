@@ -30,12 +30,6 @@ public class FileProcessor {
         sb = new StringBuilder();
         files = new ArrayList();
     }
-    
-    public void processor(String string) throws IOException{
-        //Diccionario
-        
-        
-    }
 
     public ArrayList extract(File file) throws IOException {
         ArrayList<HashMap> array = new ArrayList();

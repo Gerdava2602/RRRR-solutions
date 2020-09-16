@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileFilter;
 public class Gui extends javax.swing.JFrame {
     
     SaveStage saveS;
+    ChooserFrame chooser;
     File users, posts, comments;
     Jason jason;
     Arbol arbol;
@@ -39,7 +40,7 @@ public class Gui extends javax.swing.JFrame {
         initComponents();
         saveS= new SaveStage(this);
         jason = new Jason();
-        
+        //chooser = new ChooserFrame(this);
         arbol = new Arbol();
         
         users = new File("C:\\Users\\German David\\Desktop\\user.txt");
@@ -242,11 +243,12 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_saveActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(users == null /*|| comments == null || posts == null*/){
+        if(users == null || comments == null || posts == null){
             System.out.println("Hey papi, no has montado una verga");
         }else{
             try {
                 arbol = jason.convert(arbol,users, posts, comments);
+                paintTree(arbol);
             } catch (IOException ex) {
                 Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -347,4 +349,10 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane scroll;
     private javax.swing.JTextArea text;
     // End of variables declaration//GEN-END:variables
+
+    private void paintTree(Arbol arbol) {
+        ArbolPanel panel = new ArbolPanel(this, arbol);
+        panel.setVisible(true);
+        panel.paintTree(arbol);
+    }
 }
