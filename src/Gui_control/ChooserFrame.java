@@ -5,7 +5,19 @@
  */
 package Gui_control;
 
+import Nodos.Arbol;
+import file_control.Jason;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 /**
  *
@@ -14,7 +26,9 @@ import javax.swing.JFrame;
 public class ChooserFrame extends javax.swing.JFrame {
 
     JFrame frame;
-    
+    File users, posts, comments;
+    Jason jason;
+    Arbol arbol;
     /**
      * Creates new form ChooserFrame
      * @param frame
@@ -22,9 +36,57 @@ public class ChooserFrame extends javax.swing.JFrame {
     public ChooserFrame(JFrame frame) {
         initComponents();
         this.frame = frame;
+        jason = new Jason();
+        //chooser = new ChooserFrame(this);
+        arbol = new Arbol();
+        
+        users = new File("C:\\Users\\German David\\Desktop\\user.txt");
+        posts = new File("C:\\Users\\German David\\Desktop\\posts.txt");
+        comments = new File("C:\\Users\\German David\\Desktop\\comments.txt");
     }
 
-
+        //Este método crea el fileChooser para poder navegar y encontrar los archivos
+    private static File createFileChooser(final JFrame frame) {
+        
+        String filename = File.separator+"tmp";
+        //Crea el fileChooser
+        JFileChooser fileChooser = new JFileChooser(new File(filename));
+        //Establece un FileFilter para que solo se muestre cierto tipo de archivo
+        fileChooser.setFileFilter(new FileFilter() {
+        @Override
+        //Verifica que solo se encuentren archivos txt
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            }
+            final String name = f.getName();
+            return name.endsWith(".txt");
+        }
+        
+        //Agrega al descripción para que el usuario sepa que tipo de archivo debe encontrar
+        @Override
+        public String getDescription() {
+            return "*.txt";
+        }
+    });
+        try{
+        // Configura el tipo de mensaje para abrir el buscador de archivos
+        fileChooser.showOpenDialog(frame);
+        
+        System.out.println("File to open: " + fileChooser.getSelectedFile());
+        return fileChooser.getSelectedFile();
+        }catch(NullPointerException io){
+            System.out.println("El proceso fue cancelado, ingrese nuevamente el archivo");
+            return null;
+        }
+        
+        /*
+        // pop up an "Save File" file chooser dialog
+        fileChooser.showSaveDialog(frame);
+ 
+        System.out.println("File to save: " + fileChooser.getSelectedFile());
+        */
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,13 +99,57 @@ public class ChooserFrame extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        scroll = new javax.swing.JScrollPane();
+        text = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("CHOOSER");
+
+        text.setColumns(20);
+        text.setRows(5);
+        scroll.setViewportView(text);
+
+        jLabel3.setText("Comments");
+
+        jButton4.setText("Choose");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Choose");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Posts");
+
+        jLabel4.setText("Users");
+
+        jButton5.setText("Choose");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Convert");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -58,13 +164,30 @@ public class ChooserFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(331, 331, 331)
-                .addComponent(jLabel1)
-                .addContainerGap(478, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(331, 331, 331)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -77,21 +200,132 @@ public class ChooserFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 325, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton5)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jLabel3))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addGap(9, 9, 9))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            comments = createFileChooser(this);
+            br = new BufferedReader(new FileReader(comments));
+            String st;
+            while ((st = br.readLine()) != null)
+            text.append(st+"\n");
+            //Catchs para los dos tipos de excepciones que podríamos encontrar
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            posts = createFileChooser(this);
+            br = new BufferedReader(new FileReader(posts));
+            String st;
+            while ((st = br.readLine()) != null)
+            text.append(st+"\n");
+            //Catchs para los dos tipos de excepciones que podríamos encontrar
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //BufferedReader para poder convertir el archivo a String
+        BufferedReader br;
+        text.setText("");
+        try {
+            //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
+            users = createFileChooser(this);
+            br = new BufferedReader(new FileReader(users));
+            String st;
+            while ((st = br.readLine()) != null)
+            text.append(st+"\n");
+            //Catchs para los dos tipos de excepciones que podríamos encontrar
+        } catch (FileNotFoundException ex) {
+            System.out.println("Este archivo no pudo ser leido");;
+        } catch (NullPointerException ex) {
+            System.out.println("Ha sucedido un error");;
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        if(users == null || comments == null || posts == null){
+            JOptionPane.showMessageDialog(this, "No se ha ingresado archivo");
+        }else{
+            try {
+                arbol = jason.convert(arbol,users, posts, comments);
+                arbol.showTree();
+                Blog b = new Blog(arbol);
+                this.setVisible(false);
+                b.setVisible(true);
+                
+            } catch (IOException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        frame.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane scroll;
+    private javax.swing.JTextArea text;
     // End of variables declaration//GEN-END:variables
 }

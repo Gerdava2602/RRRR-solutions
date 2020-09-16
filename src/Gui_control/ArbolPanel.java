@@ -31,6 +31,7 @@ public class ArbolPanel extends javax.swing.JFrame {
         this.setResizable(false);
         this.a = a;
         g= panel.getGraphics();
+        
     }
 
     
@@ -114,6 +115,7 @@ public class ArbolPanel extends javax.swing.JFrame {
                     ux[1] = ux[1] + width/userSize/postSize;
                 g.drawLine(ux[0]+10, uy+10, ux[1]+10, uy*2+10);
                 g.drawRect(ux[1], uy*2, 20, 20);
+                //Terminar esta parte, y por favor optimizar
                 for (Comentario comment : post.getComments()) {
                     int commentSize = post.getComments().size();
                     counts[2]++;

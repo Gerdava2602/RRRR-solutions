@@ -63,17 +63,46 @@ public class Jason {
                                           (String)(map.get("website")),
                                           (String)(map.get("nameC")),
                                           (String)(map.get("catchPhrase")),
-                                          (String)(map.get("bs")));
-            a.Agregar(usuario);
+                                          (String)(map.get("bs")),
+                                           null);
+           // a.Agregar(usuario);
+            if(a.getUserPtr()==null){
+                a.setUserPtr(usuario);
+                a.setLastU(usuario);
+            }else{
+                Usuario last = a.getLastU();
+                last.setLink(usuario);
+                a.setLastU(usuario);
+            }
+                
         }else if (map.containsKey("userId")){
             
-            Publicacion publicacion = new Publicacion(Integer.parseInt((String) map.get("userId")),Integer.parseInt((String) map.get("id")), (String)(map.get("title")), (String)(map.get("body")));
-            a.Agregar(publicacion);
+            Publicacion publicacion = new Publicacion(Integer.parseInt((String) map.get("userId")),Integer.parseInt((String) map.get("id")), (String)(map.get("title")), (String)(map.get("body")),null);
+            Usuario usuario = a.encontrarUsuario(a.getUserPtr(), publicacion.getUserId());
+            if(usuario.getPostPtr()==null){
+                usuario.setPostPtr(publicacion);
+                usuario.setLastPost(publicacion);
+            }else{
+                Publicacion p = usuario.getLastPost();
+                p.setLink(publicacion);
+                usuario.setLastPost(publicacion);
+            }
+            
+            //a.Agregar(publicacion);
 
             
         }else if(map.containsKey("postId")){
-            Comentario c = new Comentario(Integer.parseInt((String) map.get("postId")),Integer.parseInt((String) map.get("id")), (String)(map.get("name")), (String)(map.get("email")), (String)(map.get("body")));
-            a.Agregar(c);
+            Comentario c = new Comentario(Integer.parseInt((String) map.get("postId")),Integer.parseInt((String) map.get("id")), (String)(map.get("name")), (String)(map.get("email")), (String)(map.get("body")),null);
+            Publicacion p = a.encontrarPost(a.getUserPtr(), c.getPostId());
+            if(p.getComentarioPtr()==null){
+                p.setComentarioPtr(c);
+                p.setLastComment(c);
+            }else{
+                Comentario coment = p.getLastComment();
+                coment.setLink(c);
+                p.setLastComment(c);
+            }
+            //a.Agregar(c);
         }
         
         return a;

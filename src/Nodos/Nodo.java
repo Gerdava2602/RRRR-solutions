@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class Nodo {
 
     private LinkedList<Usuario> usuarios;
-
+    
     public Nodo() {
         usuarios = new LinkedList();
     }
@@ -29,6 +29,7 @@ public class Nodo {
         System.out.println("nulo");
         return null;
     }
+    
 
     public Publicacion getPost(int id) {
         for (Usuario u : usuarios) {

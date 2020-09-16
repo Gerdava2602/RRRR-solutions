@@ -17,13 +17,15 @@ public class Comentario extends Nodo{
     String name;
     String email;
     String body;
+    Comentario link;
 
-    public Comentario(int postId, int id, String name, String email, String body) {
+    public Comentario(int postId, int id, String name, String email, String body, Comentario link) {
         this.postId = postId;
         this.id = id;
         this.name = name;
         this.email = email;
         this.body = body;
+        this.link = link;
     }
 
     @Override
@@ -59,6 +61,14 @@ public class Comentario extends Nodo{
         return body;
     }
 
+    public Comentario getLink() {
+        return link;
+    }
+
+    public void setLink(Comentario link) {
+        this.link = link;
+    }
+    
     
     
 }

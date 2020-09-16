@@ -25,6 +25,9 @@ public class Usuario extends Nodo{
     Company company;
     Direccion direccion;
     LinkedList<Publicacion> posts;
+    Usuario link;
+    Publicacion postPtr;
+    Publicacion lastPost;
     
     public Usuario() {
         posts = new LinkedList();
@@ -33,7 +36,7 @@ public class Usuario extends Nodo{
     public Usuario(int id, String name, String username, String email, 
                    String street, String suite,String city, String zipcode,
                    String lat, String lng, String phone, String website ,
-                   String nameC, String catchPhrase, String bs) {
+                   String nameC, String catchPhrase, String bs,Usuario link) {
         
         this.id = id;
         this.name = name;
@@ -41,6 +44,7 @@ public class Usuario extends Nodo{
         this.email = email;
         this.phone = phone;
         this.website = website;
+        this.link=link;
         company = new Company();
         company.setName(nameC);
         company.setCatchPhrase(catchPhrase);
@@ -64,6 +68,22 @@ public class Usuario extends Nodo{
         return sb.toString();
     }
 
+    public void addPost(Publicacion p){
+        Publicacion ptr = postPtr;
+        while(ptr.link!=null){
+            ptr=ptr.link;
+        }
+        ptr.link = p;
+    }
+
+    public Publicacion getLastPost() {
+        return lastPost;
+    }
+
+    public void setLastPost(Publicacion lastPost) {
+        this.lastPost = lastPost;
+    }
+    
     public int getId() {
         return id;
     }
@@ -142,6 +162,32 @@ public class Usuario extends Nodo{
     public void createCompany() {
             company = new Company();
         
+    }
+
+    public Usuario getLink() {
+        return link;
+    }
+
+    public void setLink(Usuario link) {
+        this.link = link;
+    }
+
+    public Publicacion getPostPtr() {
+        return postPtr;
+    }
+
+    public void setPostPtr(Publicacion postPtr) {
+        this.postPtr = postPtr;
+    }
+
+    Publicacion havePost(Publicacion ptr, int postID) {
+        if(ptr == null){
+            return null;
+        }else if(ptr.id==postID){
+            return ptr;
+        }else{
+            return havePost(ptr.link, postID);
+        }
     }
     
     

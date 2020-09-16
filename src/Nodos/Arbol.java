@@ -14,11 +14,15 @@ import java.util.LinkedList;
 public class Arbol {
 
     public Nodo Raiz;
-
+    Usuario lastU;
+    Publicacion lastPost;
+    Comentario lastC;
+    Usuario userPtr;
+    
     public Arbol() {
         Raiz = new Nodo();
     }
-
+    /*
     public void Agregar(Nodo hijo) {
         
             if (hijo instanceof Usuario) {
@@ -33,7 +37,26 @@ public class Arbol {
             
         
     }
-
+    */
+    public void showTree(){
+        Usuario ptr = userPtr;
+        while(ptr!= null){
+            Publicacion postPtr = ptr.getPostPtr();
+            while(postPtr!=null){
+                Comentario cptr= postPtr.getComentarioPtr();
+                while(cptr != null){
+                    System.out.println(cptr.toString());
+                    cptr = cptr.link;
+                }
+                System.out.println(postPtr.toString());
+                postPtr = postPtr.link;
+            }
+            System.out.println(ptr.toString());
+            ptr = ptr.link;
+        }
+    }
+    
+    /*
     public void insertarUsuario(Nodo nodo) {
         Raiz.getUsuarios().add((Usuario) nodo);
         Usuario u = (Usuario)nodo;
@@ -59,5 +82,60 @@ public class Arbol {
         }
 
     }
+    */
+    public Usuario encontrarUsuario(Usuario ptr,int id){
+        if(ptr == null){
+            return null;
+        }else if(ptr.getId()==id){
+            return ptr;
+        }else{
+            return encontrarUsuario(ptr.link, id);
+        }
+    }
+    
+    public Publicacion encontrarPost(Usuario ptr, int postId){
+        if(ptr == null){
+            return null;
+        }else{
+            Publicacion p = ptr.havePost(ptr.getPostPtr(), postId);
+            if(p!=null){
+                return p;
+            }
+            return encontrarPost(ptr.link, postId);
+        }
+    }
+    
+    public Usuario getLastU() {
+        return lastU;
+    }
 
+    public void setLastU(Usuario lastU) {
+        this.lastU = lastU;
+    }
+
+    public Comentario getLastC() {
+        return lastC;
+    }
+
+    public void setLastC(Comentario lastC) {
+        this.lastC = lastC;
+    }
+
+    public Usuario getUserPtr() {
+        return userPtr;
+    }
+
+    public void setUserPtr(Usuario userPtr) {
+        this.userPtr = userPtr;
+    }
+
+    public Publicacion getLastPost() {
+        return lastPost;
+    }
+
+    public void setLastPost(Publicacion lastPost) {
+        this.lastPost = lastPost;
+    }
+
+    
 }
