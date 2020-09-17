@@ -20,7 +20,7 @@ public class Blog extends javax.swing.JFrame {
      */
     public Blog(Arbol a) {
         initComponents();
-        
+        this.a = a;
     }
 
 

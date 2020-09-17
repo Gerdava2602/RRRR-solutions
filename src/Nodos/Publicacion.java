@@ -17,7 +17,6 @@ public class Publicacion extends Nodo{
     int id;
     String title;
     String body;
-    LinkedList<Comentario> comentarios;
     Comentario comentarioPtr;
     Publicacion link;
     Comentario lastComment;
@@ -28,7 +27,6 @@ public class Publicacion extends Nodo{
         this.title = title;
         this.body = body;
         this.link = link;
-        comentarios = new LinkedList();
         
     }
 
@@ -62,10 +60,6 @@ public class Publicacion extends Nodo{
 
     public String getBody() {
         return body;
-    }
-
-    public LinkedList<Comentario> getComments() {
-        return comentarios;
     }
 
     public void setUserId(int userId) {
@@ -108,5 +102,13 @@ public class Publicacion extends Nodo{
         this.lastComment = lastComment;
     }
     
-    
+    public int commentsSize(){
+        Comentario c = comentarioPtr;
+        int count=0;
+        while(c!=null){
+            count++;
+            c=c.link;
+        }
+        return count;
+    }
 }

@@ -91,47 +91,77 @@ public class ArbolPanel extends javax.swing.JFrame {
     public void paintTree(Arbol tree){
         int width = panel.getWidth();
         int height = panel.getHeight();
-        int  userSize = tree.Raiz.getUsuarios().size(); 
+        int imageSize = 20;
+        /*
+        g.fillRect(width/2, 0, imageSize, imageSize);
+        
+        Usuario ptr = tree.getUserPtr();
+        while(ptr!= null){
+            Publicacion postPtr = ptr.getPostPtr();
+            g.fillRect(width/tree.userSize(),heightY , imageSize, imageSize);
+            while(postPtr!=null){
+                Comentario cptr= postPtr.getComentarioPtr();
+                while(cptr != null){
+                    System.out.println(cptr.toString());
+                    cptr = cptr.getLink();
+                }
+                System.out.println(postPtr.toString());
+                postPtr = postPtr.getLink();
+            }
+            System.out.println(ptr.toString());
+            ptr = ptr.getLink();
+        }
+        */
+                
+        int  userSize = tree.userSize(); 
         int[] counts = new int[3];
         int[] ux = new int[3];
         int uy = height/4;
         
         g.drawOval(width/2, 10, 20, 20);
-        for (Usuario usuario : tree.Raiz.getUsuarios()) {
+        
+        Usuario ptr = tree.getUserPtr();
+        while(ptr!= null){
+
             counts[0]++;
             if(counts[0]==1)
                 ux[0] = width/(userSize*2)*counts[0];
             else
                 ux[0] = ux[0]+ width/(userSize);
             
-            g.drawLine(width/2+10, 10, ux[0]+10, uy+10);
+            g.drawLine(width/2+imageSize/2, 10+imageSize/2, ux[0]+imageSize/2, uy+imageSize/2);
             g.drawRect(ux[0], uy, 20, 20);
-            for (Publicacion post : usuario.getPosts()) {
-                int postSize = usuario.getPosts().size();
+            Publicacion postPtr = ptr.getPostPtr();
+             while(postPtr!=null){
+                int postSize = ptr.postSize();
                 counts[1]++;
-                if(counts[1]==0)
-                    ux[1] = width/userSize/postSize*counts[1];
+                if(counts[1]==1)
+                    ux[1] = width/(2*postSize)*counts[1];
                 else
-                    ux[1] = ux[1] + width/userSize/postSize;
-                g.drawLine(ux[0]+10, uy+10, ux[1]+10, uy*2+10);
+                    ux[1] = ux[1]+width/userSize/postSize;
+                g.drawLine(ux[0]+imageSize/2, uy+imageSize/2, ux[1]+imageSize/2, uy*2+imageSize/2);
                 g.drawRect(ux[1], uy*2, 20, 20);
                 //Terminar esta parte, y por favor optimizar
-                for (Comentario comment : post.getComments()) {
-                    int commentSize = post.getComments().size();
+                Comentario cptr = postPtr.getComentarioPtr();
+                while(cptr != null){
+                    int commentSize = postPtr.commentsSize();
                     counts[2]++;
                     if(counts[2]==1)
-                        ux[2] = 0;
+                        ux[2] = width/userSize*counts[2];
                     else
-                        ux[2] = ux[2] + width/userSize/postSize;
+                        ux[2] = ux[2] + width/userSize/commentSize;
                     
-                    g.drawLine(ux[1]+10, uy*2+10,10+ ux[2], 10+ uy*3);
+                    g.drawLine(ux[1]+imageSize/2, uy*2+imageSize/2,imageSize/2+ ux[2], imageSize/2+ uy*3);
                     g.drawRect(ux[2], uy*3, 20, 20);
+                    cptr = cptr.getLink();
                 }
-                counts[2] = 0;
-                
+                counts[2] = 1;
+                postPtr = postPtr.getLink();
             }
-            counts[1] = 0;
+            counts[1] = 1;
+            ptr= ptr.getLink();
         }
+        counts[0] = 0;
     }
     
 }

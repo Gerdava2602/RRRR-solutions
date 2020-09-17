@@ -24,13 +24,11 @@ public class Usuario extends Nodo{
     String website;
     Company company;
     Direccion direccion;
-    LinkedList<Publicacion> posts;
     Usuario link;
     Publicacion postPtr;
     Publicacion lastPost;
     
     public Usuario() {
-        posts = new LinkedList();
     }
 
     public Usuario(int id, String name, String username, String email, 
@@ -50,7 +48,7 @@ public class Usuario extends Nodo{
         company.setCatchPhrase(catchPhrase);
         company.setBs(bs);
         direccion = new Direccion(street, suite, city, zipcode, lat, lng);
-        posts = new LinkedList();
+        
     }
     
     @Override
@@ -148,12 +146,6 @@ public class Usuario extends Nodo{
         this.direccion = direccion;
     }
 
-    
-
-    public LinkedList<Publicacion> getPosts() {
-        return posts;
-    }
-
     public void createAddress() {
             this.direccion = new Direccion();
         
@@ -188,6 +180,16 @@ public class Usuario extends Nodo{
         }else{
             return havePost(ptr.link, postID);
         }
+    }
+    
+    public int postSize(){
+        Publicacion p = this.postPtr;
+        int count=0;
+        while(p!=null){
+            count++;
+            p=p.link;
+        }
+        return count;
     }
     
     

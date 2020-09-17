@@ -57,6 +57,25 @@ public class Arbol {
     }
     
     /*
+    public void showTreeJson(){
+        Usuario ptr = userPtr;
+        while(ptr!= null){
+            Publicacion postPtr = ptr.getPostPtr();
+            while(postPtr!=null){
+                Comentario cptr= postPtr.getComentarioPtr();
+                while(cptr != null){
+                    System.out.println(cptr.toString());
+                    cptr = cptr.link;
+                }
+                System.out.println(postPtr.toString());
+                postPtr = postPtr.link;
+            }
+            System.out.println(ptr.toString());
+            ptr = ptr.link;
+        }
+    }
+    */
+    /*
     public void insertarUsuario(Nodo nodo) {
         Raiz.getUsuarios().add((Usuario) nodo);
         Usuario u = (Usuario)nodo;
@@ -137,5 +156,13 @@ public class Arbol {
         this.lastPost = lastPost;
     }
 
-    
+    public int userSize(){
+        Usuario u = userPtr;
+        int count=0;
+        while(u!=null){
+            count++;
+            u=u.link;
+        }
+        return count;
+    }
 }
