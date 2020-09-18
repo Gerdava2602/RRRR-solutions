@@ -165,4 +165,28 @@ public class Arbol {
         }
         return count;
     }
+    
+        public int totalPostSize(){
+        int c = 0;
+        Usuario u = userPtr;
+        while(u != null){
+            c += u.postSize();
+            u = u.link;
+        }
+        return c;
+    }
+    
+    public int totalCommentSize(){
+        int c = 0;
+        Usuario u = userPtr;
+        while(u != null){
+            Publicacion p = u.postPtr;
+            while (p!=null) {
+                c+= p.commentsSize();
+                p = p.link;
+            }
+            u = u.link;
+        }
+        return c;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package file_control;
 
+import Atributos.Lista;
 import Nodos.Arbol;
 import Nodos.Comentario;
 import Nodos.Nodo;
@@ -22,11 +23,12 @@ import java.util.regex.Pattern;
 
 public class Jason {
 
-    ArrayList<File> files;
+    Lista files;
     FileProcessor fp;
-
+    Lista l;
+    
     public Jason() {
-        files = new ArrayList();
+        files = new Lista();
         fp = new FileProcessor();
     }
 
@@ -35,14 +37,18 @@ public class Jason {
         files.add(posts);
         files.add(comments);
 
-        for (File file : files) {
-            if (file != null) {
-                ArrayList<HashMap> maps = fp.extract(file);
+        Lista list = files;
+        while(list != null){
+            if (list.getData() != null) {
                 
-                for (HashMap map : maps) {
-                    a = creaNodo(a, map);
+                l  = fp.extract((File)list.getData());
+                
+                while(l != null){
+                    a = creaNodo(a, (HashMap)l.getData());
+                    l = l.getLink();
                 }
             }
+            list = list.getLink();
         }
         return a;
     }

@@ -5,6 +5,7 @@
  */
 package file_control;
 
+import Atributos.Lista;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,16 +26,20 @@ public class FileProcessor {
     ArrayList<File> files;
     BufferedReader br;
     StringBuilder sb;
+    
 
     public FileProcessor() {
         sb = new StringBuilder();
         files = new ArrayList();
     }
 
-    public ArrayList extract(File file) throws IOException {
+    public Lista extract(File file) throws IOException {
+        Lista l = null;
+        Lista interna = l;
         ArrayList<HashMap> array = new ArrayList();
         Pattern llaves,inicio,fin, valores;
         Matcher bloque, matcherK, matcherV;
+        
         
         try {
             br = new BufferedReader(new FileReader (file));
@@ -80,7 +85,14 @@ public class FileProcessor {
                         count--;
                      line = br.readLine();
                 }
-                array.add(map);
+                if(l == null){
+                    l = new Lista(map);
+                    interna = l;
+                }else{
+                    Lista n = new Lista(map);
+                    interna.setLink(n);
+                    interna = interna.getLink();
+                }
                 sb.delete(0, sb.length()-1);
                 count =0;
             }else{
@@ -88,7 +100,7 @@ public class FileProcessor {
             }
         }
         
-        return array;
+        return l;
     }
 
     private String depurar(String group) {
