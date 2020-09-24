@@ -13,39 +13,10 @@ import java.util.LinkedList;
  * @author German David
  */
 public class Nodo {
-
-    private LinkedList<Usuario> usuarios;
-
+    Usuario usuario;
+   
+    
     public Nodo() {
-        usuarios = new LinkedList();
+        
     }
-
-    public Usuario getUsuario(int id) {
-        for (Usuario u : usuarios) {
-            if (id == u.getId()) {
-                return u;
-            }
-        }
-        System.out.println("nulo");
-        return null;
-    }
-
-    public Publicacion getPost(int id) {
-        for (Usuario u : usuarios) {
-            for (Publicacion p : u.getPosts()) {
-                if (p.getId() == id) {
-                    return p;
-                }
-            }
-        }
-        System.out.println("nulo");
-        return null;
-    }
-
-    public LinkedList<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    
-    
 }

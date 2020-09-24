@@ -17,14 +17,17 @@ public class Publicacion extends Nodo{
     int id;
     String title;
     String body;
-    LinkedList<Comentario> comentarios;
-
-    public Publicacion(int userId, int id, String title, String body) {
+    Comentario comentarioPtr;
+    Publicacion link;
+    Comentario lastComment;
+    
+    public Publicacion(int userId, int id, String title, String body, Publicacion link) {
         this.userId = userId;
         this.id = id;
         this.title = title;
         this.body = body;
-        comentarios = new LinkedList();
+        this.link = link;
+        
     }
 
     public Publicacion() {
@@ -59,10 +62,6 @@ public class Publicacion extends Nodo{
         return body;
     }
 
-    public LinkedList<Comentario> getComments() {
-        return comentarios;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -78,6 +77,38 @@ public class Publicacion extends Nodo{
     public void setBody(String body) {
         this.body = body;
     }
+
+    public Comentario getComentarioPtr() {
+        return comentarioPtr;
+    }
+
+    public void setComentarioPtr(Comentario comentarioPtr) {
+        this.comentarioPtr = comentarioPtr;
+    }
+
+    public Publicacion getLink() {
+        return link;
+    }
+
+    public void setLink(Publicacion link) {
+        this.link = link;
+    }
+
+    public Comentario getLastComment() {
+        return lastComment;
+    }
+
+    public void setLastComment(Comentario lastComment) {
+        this.lastComment = lastComment;
+    }
     
-    
+    public int commentsSize(){
+        Comentario c = comentarioPtr;
+        int count=0;
+        while(c!=null){
+            count++;
+            c=c.link;
+        }
+        return count;
+    }
 }

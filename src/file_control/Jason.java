@@ -5,6 +5,7 @@
  */
 package file_control;
 
+import Atributos.Lista;
 import Nodos.Arbol;
 import Nodos.Comentario;
 import Nodos.Nodo;
@@ -22,11 +23,12 @@ import java.util.regex.Pattern;
 
 public class Jason {
 
-    ArrayList<File> files;
+    Lista files;
     FileProcessor fp;
-
+    Lista l;
+    
     public Jason() {
-        files = new ArrayList();
+        files = new Lista();
         fp = new FileProcessor();
     }
 
@@ -35,14 +37,18 @@ public class Jason {
         files.add(posts);
         files.add(comments);
 
-        for (File file : files) {
-            if (file != null) {
-                ArrayList<HashMap> maps = fp.extract(file);
+        Lista list = files;
+        while(list != null){
+            if (list.getData() != null) {
                 
-                for (HashMap map : maps) {
-                    a = creaNodo(a, map);
+                l  = fp.extract((File)list.getData());
+                
+                while(l != null){
+                    a = creaNodo(a, (HashMap)l.getData());
+                    l = l.getLink();
                 }
             }
+            list = list.getLink();
         }
         return a;
     }
@@ -63,17 +69,46 @@ public class Jason {
                                           (String)(map.get("website")),
                                           (String)(map.get("nameC")),
                                           (String)(map.get("catchPhrase")),
-                                          (String)(map.get("bs")));
-            a.Agregar(usuario);
+                                          (String)(map.get("bs")),
+                                           null);
+           // a.Agregar(usuario);
+            if(a.getUserPtr()==null){
+                a.setUserPtr(usuario);
+                a.setLastU(usuario);
+            }else{
+                Usuario last = a.getLastU();
+                last.setLink(usuario);
+                a.setLastU(usuario);
+            }
+                
         }else if (map.containsKey("userId")){
             
-            Publicacion publicacion = new Publicacion(Integer.parseInt((String) map.get("userId")),Integer.parseInt((String) map.get("id")), (String)(map.get("title")), (String)(map.get("body")));
-            a.Agregar(publicacion);
+            Publicacion publicacion = new Publicacion(Integer.parseInt((String) map.get("userId")),Integer.parseInt((String) map.get("id")), (String)(map.get("title")), (String)(map.get("body")),null);
+            Usuario usuario = a.encontrarUsuario(a.getUserPtr(), publicacion.getUserId());
+            if(usuario.getPostPtr()==null){
+                usuario.setPostPtr(publicacion);
+                usuario.setLastPost(publicacion);
+            }else{
+                Publicacion p = usuario.getLastPost();
+                p.setLink(publicacion);
+                usuario.setLastPost(publicacion);
+            }
+            
+            //a.Agregar(publicacion);
 
             
         }else if(map.containsKey("postId")){
-            Comentario c = new Comentario(Integer.parseInt((String) map.get("postId")),Integer.parseInt((String) map.get("id")), (String)(map.get("name")), (String)(map.get("email")), (String)(map.get("body")));
-            a.Agregar(c);
+            Comentario c = new Comentario(Integer.parseInt((String) map.get("postId")),Integer.parseInt((String) map.get("id")), (String)(map.get("name")), (String)(map.get("email")), (String)(map.get("body")),null);
+            Publicacion p = a.encontrarPost(a.getUserPtr(), c.getPostId());
+            if(p.getComentarioPtr()==null){
+                p.setComentarioPtr(c);
+                p.setLastComment(c);
+            }else{
+                Comentario coment = p.getLastComment();
+                coment.setLink(c);
+                p.setLastComment(c);
+            }
+            //a.Agregar(c);
         }
         
         return a;
