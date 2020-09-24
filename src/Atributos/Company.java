@@ -6,14 +6,19 @@
 package Atributos;
 
 /**
- *
- * @author German David
+ *  Se crea el objeto Company al cual se le atribuye la información extraída del JSON. 
+ * 
  */
 public class Company {
     String name;
     String catchPhrase;
     String bs;
-
+    /**
+     * Constructor de la clase Company
+     * @param name de la compañia
+     * @param catchPhrase de la compañia
+     * @param bs de la compañia
+     */
     public Company(String name, String catchPhrase, String bs) {
         this.name= name;
         this.catchPhrase = catchPhrase;
@@ -22,7 +27,10 @@ public class Company {
 
     public Company() {
     }
-
+    /**
+     * Se sobre escribe el método toString, para escribir la información de la compañia.
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -32,7 +40,10 @@ public class Company {
         sb.append(" bs: "+bs+"\n");
         return sb.toString();
     }
-    
+    /**
+     * Getters y setters
+     * @return 
+     */
     public String getName() {
         return name;
     }

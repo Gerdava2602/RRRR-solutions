@@ -5,6 +5,7 @@
  */
 package file_control;
 
+import Atributos.Lista;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,29 +19,33 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author German David
+ * Procesa la información de los archivos subidos por el usuario.
  */
 public class FileProcessor {
     ArrayList<File> files;
     BufferedReader br;
     StringBuilder sb;
-
+    
+    /**
+     * Constructor del FileProcessor
+     */
     public FileProcessor() {
         sb = new StringBuilder();
         files = new ArrayList();
     }
-    
-    public void processor(String string) throws IOException{
-        //Diccionario
-        
-        
-    }
-
-    public ArrayList extract(File file) throws IOException {
+    /**
+     * Extractor de la información del archivo con el uso de Regular Expressions.
+     * @param file
+     * @return
+     * @throws IOException 
+     */
+    public Lista extract(File file) throws IOException {
+        Lista l = null;
+        Lista interna = l;
         ArrayList<HashMap> array = new ArrayList();
         Pattern llaves,inicio,fin, valores;
         Matcher bloque, matcherK, matcherV;
+        
         
         try {
             br = new BufferedReader(new FileReader (file));
@@ -72,9 +77,14 @@ public class FileProcessor {
                     matcherV = valores.matcher(line);
                     if(matcherK.find() && matcherV.find()){
                         String value = depurar(matcherV.group(1));
+                        
                         if(map.containsKey("name") && matcherK.group(1).equals("name"))
                             map.put("nameC", value);
-                        else
+                        else if(matcherK.group(1).equals("body")){
+                            value = value.replace("\\n", "\n");
+                            System.out.println(value);
+                            map.put(matcherK.group(1), value);
+                        }else
                             map.put(matcherK.group(1), value);
                         //System.out.println(matcherK.group(1)+"/"+value);
                         
@@ -86,7 +96,14 @@ public class FileProcessor {
                         count--;
                      line = br.readLine();
                 }
-                array.add(map);
+                if(l == null){
+                    l = new Lista(map);
+                    interna = l;
+                }else{
+                    Lista n = new Lista(map);
+                    interna.setLink(n);
+                    interna = interna.getLink();
+                }
                 sb.delete(0, sb.length()-1);
                 count =0;
             }else{
@@ -94,11 +111,15 @@ public class FileProcessor {
             }
         }
         
-        return array;
+        return l;
     }
-
+    /**
+     * Toma la información extraída y le quita algunos caracteres demás.
+     * @param group
+     * @return 
+     */
     private String depurar(String group) {
-        Pattern depura = Pattern.compile("([^\\{,\"\\n]+)");
+        Pattern depura = Pattern.compile("([^\\{,\"]+)");
         Matcher matcher = depura.matcher(group);
         if(matcher.find())
             return matcher.group(1);

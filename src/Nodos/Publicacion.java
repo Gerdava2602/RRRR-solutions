@@ -9,28 +9,33 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- *
- * @author German David
+ * Se crea el objeto Publicacion al cual se le atribuye la información extraída del JSON.
  */
 public class Publicacion extends Nodo{
     int userId;
     int id;
     String title;
     String body;
-    LinkedList<Comentario> comentarios;
-
-    public Publicacion(int userId, int id, String title, String body) {
+    Comentario comentarioPtr;
+    Publicacion link;
+    Comentario lastComment;
+    
+    public Publicacion(int userId, int id, String title, String body, Publicacion link) {
         this.userId = userId;
         this.id = id;
         this.title = title;
         this.body = body;
-        comentarios = new LinkedList();
+        this.link = link;
+        
     }
 
     public Publicacion() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    /**
+     * Se sobre escribe el método toString, para escribir la información de la publicación.
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -42,7 +47,10 @@ public class Publicacion extends Nodo{
         
         return sb.toString();
     }
-    
+    /**
+     * Getters y setters.
+     * @return 
+     */
     public int getUserId() {
         return userId;
     }
@@ -57,10 +65,6 @@ public class Publicacion extends Nodo{
 
     public String getBody() {
         return body;
-    }
-
-    public LinkedList<Comentario> getComments() {
-        return comentarios;
     }
 
     public void setUserId(int userId) {
@@ -78,6 +82,38 @@ public class Publicacion extends Nodo{
     public void setBody(String body) {
         this.body = body;
     }
+
+    public Comentario getComentarioPtr() {
+        return comentarioPtr;
+    }
+
+    public void setComentarioPtr(Comentario comentarioPtr) {
+        this.comentarioPtr = comentarioPtr;
+    }
+
+    public Publicacion getLink() {
+        return link;
+    }
+
+    public void setLink(Publicacion link) {
+        this.link = link;
+    }
+
+    public Comentario getLastComment() {
+        return lastComment;
+    }
+
+    public void setLastComment(Comentario lastComment) {
+        this.lastComment = lastComment;
+    }
     
-    
+    public int commentsSize(){
+        Comentario c = comentarioPtr;
+        int count=0;
+        while(c!=null){
+            count++;
+            c=c.link;
+        }
+        return count;
+    }
 }

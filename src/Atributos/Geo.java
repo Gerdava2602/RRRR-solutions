@@ -6,13 +6,17 @@
 package Atributos;
 
 /**
- *
- * @author German David
+ * Se crea el objeto/diccionario Geo al cual se le atribuye la información extraída del JSON.
+ * 
  */
 public class Geo {
     String latitud;
     String longitud;
-
+    /**
+     * Se pasan por parámetros los atributos de Geo.
+     * @param latitud
+     * @param longitud 
+     */
     public Geo(String latitud, String longitud) {
         this.latitud = latitud;
         this.longitud = longitud;
@@ -20,8 +24,10 @@ public class Geo {
 
     public Geo() {
     }
-
-    
+    /**
+     * Se sobre escribe el método toString, para escribir la información de la compañia.
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -30,7 +36,10 @@ public class Geo {
         sb.append("     longitud:"+longitud+"\n");
         return sb.toString();
     }
-    
+    /**
+     * Getters y setters
+     * @return 
+     */
     public String getLatitud() {
         return latitud;
     }

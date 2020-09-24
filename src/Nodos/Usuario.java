@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- *
- * @author German David
+ * Se crea el objeto Usuario al cual se le atribuye la información extraída del JSON.
  */
 public class Usuario extends Nodo{
     
@@ -24,16 +23,36 @@ public class Usuario extends Nodo{
     String website;
     Company company;
     Direccion direccion;
-    LinkedList<Publicacion> posts;
+    Usuario link;
+    Publicacion postPtr;
+    Publicacion lastPost;
+    Usuario userPtr;
     
     public Usuario() {
-        posts = new LinkedList();
     }
-
+    /**
+     * Se recibe la información extraída del JSON para el usuario.
+     * @param id
+     * @param name
+     * @param username
+     * @param email
+     * @param street
+     * @param suite
+     * @param city
+     * @param zipcode
+     * @param lat
+     * @param lng
+     * @param phone
+     * @param website
+     * @param nameC
+     * @param catchPhrase
+     * @param bs
+     * @param link 
+     */
     public Usuario(int id, String name, String username, String email, 
                    String street, String suite,String city, String zipcode,
                    String lat, String lng, String phone, String website ,
-                   String nameC, String catchPhrase, String bs) {
+                   String nameC, String catchPhrase, String bs,Usuario link) {
         
         this.id = id;
         this.name = name;
@@ -41,14 +60,18 @@ public class Usuario extends Nodo{
         this.email = email;
         this.phone = phone;
         this.website = website;
+        this.link=link;
         company = new Company();
         company.setName(nameC);
         company.setCatchPhrase(catchPhrase);
         company.setBs(bs);
         direccion = new Direccion(street, suite, city, zipcode, lat, lng);
-        posts = new LinkedList();
+        
     }
-    
+    /**
+     * Se sobre escribe el método toString, para escribir la información del usuario.
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -63,7 +86,47 @@ public class Usuario extends Nodo{
         
         return sb.toString();
     }
+    /**
+     * Fase de prueba para buscar al usuario con sus posts y respectivos comentarios
+     * 
+     */
+    /*
+    StringBuilder sbp = new StringBuilder();
+    
+    public String publicacionesUsuario(Usuario u,String username){
+        Usuario p = u;
+        while (u.getUsername()!= username) {
+            p = u.link;
+        }
+        sbp.append("Post:\n");
+        sbp.append("    Title:\n"+p.getPostPtr().title);
+        sbp.append("    Body:\n"+p.getPostPtr().getBody());
+        sbp.append("Comments:\n");
+        sbp.append("    User:\n"+p.getPostPtr().getComentarioPtr().getName());
+        sbp.append("    Body:\n"+p.getPostPtr().getComentarioPtr().getBody());
+        
+        return sbp.toString();
+    }
+    */
+    public void addPost(Publicacion p){
+        Publicacion ptr = postPtr;
+        while(ptr.link!=null){
+            ptr=ptr.link;
+        }
+        ptr.link = p;
+    }
+    /**
+     * Getters y setters.
+     * @return 
+     */
+    public Publicacion getLastPost() {
+        return lastPost;
+    }
 
+    public void setLastPost(Publicacion lastPost) {
+        this.lastPost = lastPost;
+    }
+    
     public int getId() {
         return id;
     }
@@ -128,12 +191,6 @@ public class Usuario extends Nodo{
         this.direccion = direccion;
     }
 
-    
-
-    public LinkedList<Publicacion> getPosts() {
-        return posts;
-    }
-
     public void createAddress() {
             this.direccion = new Direccion();
         
@@ -143,7 +200,62 @@ public class Usuario extends Nodo{
             company = new Company();
         
     }
+
+    public Usuario getLink() {
+        return link;
+    }
+
+    public void setLink(Usuario link) {
+        this.link = link;
+    }
+
+    public Publicacion getPostPtr() {
+        return postPtr;
+    }
+
+    public void setPostPtr(Publicacion postPtr) {
+        this.postPtr = postPtr;
+    }
+
+    Publicacion havePost(Publicacion ptr, int postID) {
+        if(ptr == null){
+            return null;
+        }else if(ptr.id==postID){
+            return ptr;
+        }else{
+            return havePost(ptr.link, postID);
+        }
+    }
     
+    public int postSize(){
+        Publicacion p = this.postPtr;
+        int count=0;
+        while(p!=null){
+            count++;
+            p=p.link;
+        }
+        return count;
+    }
+    
+    public int totalPostSize() {
+        int c = 0;
+        Usuario u = userPtr;
+        while (u != null) {
+            c += u.postSize();
+            u = u.link;
+        }
+        return c;
+    }
+    
+    public int totalCommentSize() {
+    Publicacion p = this.postPtr;
+        int count = 0;
+        while(p!=null){
+            count += p.commentsSize();
+            p=p.link;
+        }
+        return count;
+    }
     
 
     

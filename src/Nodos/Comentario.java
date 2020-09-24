@@ -8,8 +8,8 @@ package Nodos;
 import java.util.LinkedList;
 
 /**
- *
- * @author German David
+ * Se crea el objeto usuario al cual se le atribuye la información extraída del JSON.
+ * 
  */
 public class Comentario extends Nodo{
     int postId;
@@ -17,15 +17,28 @@ public class Comentario extends Nodo{
     String name;
     String email;
     String body;
-
-    public Comentario(int postId, int id, String name, String email, String body) {
+    Comentario link;
+    /**
+     * Constructor de los comentarios.
+     * @param postId
+     * @param id
+     * @param name
+     * @param email
+     * @param body
+     * @param link 
+     */
+    public Comentario(int postId, int id, String name, String email, String body, Comentario link) {
         this.postId = postId;
         this.id = id;
         this.name = name;
         this.email = email;
         this.body = body;
+        this.link = link;
     }
-
+    /**
+     * Se sobre escribe el método toString, para escribir la información del comentario.
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -38,7 +51,10 @@ public class Comentario extends Nodo{
         
         return sb.toString();
     }
-    
+    /**
+     * Getters y setters.
+     * @return 
+     */
     public int getPostId() {
         return postId;
     }
@@ -59,6 +75,14 @@ public class Comentario extends Nodo{
         return body;
     }
 
+    public Comentario getLink() {
+        return link;
+    }
+
+    public void setLink(Comentario link) {
+        this.link = link;
+    }
+    
     
     
 }

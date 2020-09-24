@@ -6,8 +6,8 @@
 package Atributos;
 
 /**
- *
- * @author German David
+ * Se crea el objeto/diccionario llamado direccion al cual se le atribuye la información extraída del JSON.
+ * 
  */
 public class Direccion {
     String street;
@@ -15,7 +15,14 @@ public class Direccion {
     String city;
     String zipcode;
     Geo geo;
-
+    /**
+     * Se pasan por parametros en el constructor los atributos de la direccion.
+     * @param street
+     * @param suite
+     * @param city
+     * @param zipcode
+     * @param geo 
+     */
     public Direccion(String street, String suite, String city, String zipcode, Geo geo) {
         this.street = street;
         this.suite = suite;
@@ -35,7 +42,10 @@ public class Direccion {
         this.zipcode = zipcode;
         geo = new Geo(lat,lng);
     }
-
+    /**
+     * Se sobre escribe el método toString, para escribir la información de la dirección.
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -48,7 +58,10 @@ public class Direccion {
         
         return sb.toString();
     }
-    
+    /**
+     * Getters y setters
+     * @return 
+     */
     public String getStreet() {
         return street;
     }
