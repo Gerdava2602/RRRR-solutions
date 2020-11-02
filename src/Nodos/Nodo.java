@@ -8,12 +8,9 @@ package Nodos;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-/**
- *
- * @author German David
- */
+
 public class Nodo {
-    Usuario usuario;
+    public Usuario usuario;
    
     
     public Nodo() {

@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * clase que construye el arbol con las cadenas de texto extraidas del archivo.
+ */
 public class Jason {
 
     Lista files;
@@ -31,7 +34,17 @@ public class Jason {
         files = new Lista();
         fp = new FileProcessor();
     }
-
+    
+    /**
+     * Metodo que crea el arbol llamando al metodo creaNodo() con los datos dados.
+     * @param a arbol que creara.
+     * @param users users
+     * @param posts posts
+     * @param comments comments
+     * @return el arbol ya creado.
+     * @throws FileNotFoundException si no encuentra los archivos
+     * @throws IOException 
+     */
     public Arbol convert(Arbol a, File users, File posts, File comments) throws FileNotFoundException, IOException {
         files.add(users);
         files.add(posts);
@@ -52,7 +65,13 @@ public class Jason {
         }
         return a;
     }
-
+    
+    /**
+     * Metodo que agrega los nodos al arbol.
+     * @param a arbol al que se le agregaran los nodos.
+     * @param map hashmap que contiene los datos
+     * @return el arbol con el nodo ya añadido.
+     */
     private Arbol creaNodo(Arbol a, HashMap map) {
         if (map.containsKey("username")){
             Usuario usuario = new Usuario(Integer.parseInt((String) map.get("id")),
@@ -71,7 +90,6 @@ public class Jason {
                                           (String)(map.get("catchPhrase")),
                                           (String)(map.get("bs")),
                                            null);
-           // a.Agregar(usuario);
             if(a.getUserPtr()==null){
                 a.setUserPtr(usuario);
                 a.setLastU(usuario);
@@ -94,7 +112,6 @@ public class Jason {
                 usuario.setLastPost(publicacion);
             }
             
-            //a.Agregar(publicacion);
 
             
         }else if(map.containsKey("postId")){
@@ -108,7 +125,6 @@ public class Jason {
                 coment.setLink(c);
                 p.setLastComment(c);
             }
-            //a.Agregar(c);
         }
         
         return a;

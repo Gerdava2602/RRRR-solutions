@@ -5,14 +5,16 @@
  */
 package Atributos;
 
-/**
- *
- * @author German David
- */
+
 public class Geo {
     String latitud;
     String longitud;
-
+    
+    /**
+     * Constructor de Geo
+     * @param latitud latitud
+     * @param longitud longitud
+     */
     public Geo(String latitud, String longitud) {
         this.latitud = latitud;
         this.longitud = longitud;
@@ -45,6 +47,16 @@ public class Geo {
 
     public void setLongitud(String longitud) {
         this.longitud = longitud;
+    }
+    
+    /**
+     * Metodo que se utiliza para serializar
+     * @return El string de el objeto serializado
+     */
+    public String getSerialData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.latitud).append(",").append(this.longitud);
+        return sb.toString();
     }
     
     

@@ -8,8 +8,7 @@ package Nodos;
 import java.util.LinkedList;
 
 /**
- *
- * @author German David
+ * Clase de los comentarios del arbol.
  */
 public class Comentario extends Nodo{
     int postId;
@@ -69,6 +68,14 @@ public class Comentario extends Nodo{
         this.link = link;
     }
     
-    
+    /**
+     * Metodo que se utiliza para serializar
+     * @return El string de el objeto serializado
+     */
+    public String getSerialData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("C").append(",").append(this.postId).append(",").append(this.id).append(",").append(this.name).append(",").append(this.body.replace("\n", "/n")).append(",").append(this.email).append("\n");
+        return sb.toString();
+    }
     
 }

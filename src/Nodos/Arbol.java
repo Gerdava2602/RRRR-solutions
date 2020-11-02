@@ -9,8 +9,7 @@ import Atributos.Lista;
 import java.util.LinkedList;
 
 /**
- *
- * @author German David
+ * El arbol que se usara para guardar la informacion.
  */
 public class Arbol {
 
@@ -19,147 +18,114 @@ public class Arbol {
     Publicacion lastPost;
     Comentario lastC;
     Usuario userPtr;
-    
+
     public Arbol() {
         Raiz = new Nodo();
     }
-    /*
-    public void Agregar(Nodo hijo) {
-        
-            if (hijo instanceof Usuario) {
-                insertarUsuario(hijo);
-            } else if (hijo instanceof Publicacion) {
-                insertarPublicacion(hijo);
 
-            } else {
-                insertarComentario(hijo);
-
-            }
-            
-        
-    }
-    */
-    public void showTree(){
+    /**
+     * Metodo que te escribe todos los datos del arbol en consola.
+     */
+    public void showTree() {
         Usuario ptr = userPtr;
-        while(ptr!= null){
+        while (ptr != null) {
             Publicacion postPtr = ptr.getPostPtr();
-            while(postPtr!=null){
-                Comentario cptr= postPtr.getComentarioPtr();
-                while(cptr != null){
-                    System.out.println(cptr.toString());
+            while (postPtr != null) {
+                Comentario cptr = postPtr.getComentarioPtr();
+                while (cptr != null) {
                     cptr = cptr.link;
                 }
-                System.out.println(postPtr.toString());
                 postPtr = postPtr.link;
             }
-            System.out.println(ptr.toString());
             ptr = ptr.link;
         }
     }
-    
-    /*
-    public void showTreeJson(){
-        Usuario ptr = userPtr;
-        while(ptr!= null){
-            Publicacion postPtr = ptr.getPostPtr();
-            while(postPtr!=null){
-                Comentario cptr= postPtr.getComentarioPtr();
-                while(cptr != null){
-                    System.out.println(cptr.toString());
-                    cptr = cptr.link;
-                }
-                System.out.println(postPtr.toString());
-                postPtr = postPtr.link;
-            }
-            System.out.println(ptr.toString());
-            ptr = ptr.link;
-        }
-    }
-    */
-    /*
-    public void insertarUsuario(Nodo nodo) {
-        Raiz.getUsuarios().add((Usuario) nodo);
-        Usuario u = (Usuario)nodo;
-        System.out.println(u.toString());
-    }
 
-    public void insertarPublicacion(Nodo nodo) {
-        Publicacion p = (Publicacion) nodo;
-        Usuario u = Raiz.getUsuario(p.getUserId());
-        if (u != null) {
-            System.out.println(p.toString());
-            u.posts.add((Publicacion) nodo);
-        }
-
-    }
-
-    public void insertarComentario(Nodo nodo) {
-        Comentario c = (Comentario) nodo;
-        Publicacion p = Raiz.getPost(c.getPostId());
-        if (p != null) {
-            System.out.println(c.toString());
-            p.comentarios.add((Comentario) nodo);
-        }
-
-    }
-    */
-    public Usuario encontrarUsuario(Usuario ptr,int id){
-        if(ptr == null){
+    /**
+     * Metodo que encuentra un usuario dado su ID
+     *
+     * @param ptr primer usuario.
+     * @param id id del usuario a encontrar.
+     * @return el usuario si lo encuentra, o nulo sino.
+     */
+    public Usuario encontrarUsuario(Usuario ptr, int id) {
+        if (ptr == null) {
             return null;
-        }else if(ptr.getId()==id){
+        } else if (ptr.getId() == id) {
             return ptr;
-        }else{
+        } else {
             return encontrarUsuario(ptr.link, id);
         }
     }
-    
-    public Lista encontrarUsuarios(String s){
+
+    /**
+     * Metodo usado para encontrar usuarios dada una cadena.
+     *
+     * @param s la cadena que se buscara en los atributos de cada usuario.
+     * @return la lista de usuarios que contengan esa cadena en sus datos.
+     */
+    public Lista encontrarUsuarios(String s) {
         Lista l = new Lista();
         Usuario ptr = userPtr;
-        while(ptr != null){
-            if(ptr.name.equals(s) || ptr.phone.equals(s) || String.valueOf(ptr.id).equals(s) || ptr.username.equals(s) || ptr.website.equals(s)){
-                if(l.getData() == null)
+        while (ptr != null) {
+            if (ptr.name.toLowerCase().contains(s.toLowerCase()) || ptr.phone.contains(s) || String.valueOf(ptr.id).equals(s) || ptr.username.toLowerCase().contains(s.toLowerCase()) || ptr.website.contains(s)) {
+                if (l.getData() == null) {
                     l.setData(ptr);
-                else
+                } else {
                     l.add(ptr);
+                }
             }
             ptr = ptr.link;
         }
-        
+
         return l;
-        
+
     }
-    
-    public Lista encontrarPosts(String s){
+
+    /**
+     * Metodo usado para encontrar publicaciones dada una cadena.
+     *
+     * @param s la cadena que se buscara en los atributos de cada publicacion.
+     * @return la lista de publicaciones que contengan esa cadena en sus datos.
+     */
+    public Lista encontrarPosts(String s) {
         Lista l = new Lista();
         Lista posts = getAllPosts();
         posts = posts.getLink();
-        while(posts != null){
+        while (posts != null) {
             Publicacion datos = (Publicacion) posts.getData();
-            if(datos.body.contains(s) || String.valueOf(datos.id).equals(s) || datos.title.contains(s) || String.valueOf(datos.userId).equals(s)){
-                if(l.getData() == null)
+            if (datos.body.contains(s) || String.valueOf(datos.id).equals(s) || datos.title.contains(s) || String.valueOf(datos.userId).equals(s)) {
+                if (l.getData() == null) {
                     l.setData(datos);
-                else
+                } else {
                     l.add(datos);
+                }
             }
-            posts =posts.getLink();
+            posts = posts.getLink();
         }
-        
+
         return l;
     }
-    
-    public Publicacion encontrarPost(Usuario ptr, int postId){
-        if(ptr == null){
+
+    /**
+     * Metodo que encuentra una publicacion dada su ID
+     *
+     * @param ptr primer usuario.
+     * @param postId id de la publicacion a encontrar.
+     * @return la publicacion si la encuentra, o nulo sino.
+     */
+    public Publicacion encontrarPost(Usuario ptr, int postId) {
+        if (ptr == null) {
             return null;
-        }else{
+        } else {
             Publicacion p = ptr.havePost(ptr.getPostPtr(), postId);
-            if(p!=null){
+            if (p != null) {
                 return p;
             }
             return encontrarPost(ptr.link, postId);
         }
     }
-    
+
     public Usuario getLastU() {
         return lastU;
     }
@@ -192,52 +158,71 @@ public class Arbol {
         this.lastPost = lastPost;
     }
 
-    public int userSize(){
+    /**
+     * Metodo que retorna la cantidad de usuarios.
+     *
+     * @return cantidad de usuarios del arbol.
+     */
+    public int userSize() {
         Usuario u = userPtr;
-        int count=0;
-        while(u!=null){
+        int count = 0;
+        while (u != null) {
             count++;
-            u=u.link;
+            u = u.link;
         }
         return count;
     }
-    
-        public int totalPostSize(){
+
+    /**
+     * metodo que retorna la cantidad de publicaciones totales del arbol
+     *
+     * @return publicaciones totales del arbol
+     */
+    public int totalPostSize() {
         int c = 0;
         Usuario u = userPtr;
-        while(u != null){
+        while (u != null) {
             c += u.postSize();
             u = u.link;
         }
         return c;
     }
     
-    public int totalCommentSize(){
+    /**
+     * metodo que retorna la cantidad de comentarios totales del arbol
+     *
+     * @return comentarios totales del arbol
+     */
+    public int totalCommentSize() {
         int c = 0;
         Usuario u = userPtr;
-        while(u != null){
+        while (u != null) {
             Publicacion p = u.postPtr;
-            while (p!=null) {
-                c+= p.commentsSize();
+            while (p != null) {
+                c += p.commentsSize();
                 p = p.link;
             }
             u = u.link;
         }
         return c;
     }
-
-    public Lista getAllPosts(){
+    
+    /**
+     * Metodo que retorna una lista de todos los posts del arbol.
+     * @return lista con todos los posts del arbol.
+     */
+    public Lista getAllPosts() {
         Lista posts = new Lista();
         Usuario ptr = userPtr;
-        while(ptr!= null){
+        while (ptr != null) {
             Publicacion postPtr = ptr.getPostPtr();
-            while(postPtr!=null){
+            while (postPtr != null) {
                 posts.add(postPtr);
                 postPtr = postPtr.link;
             }
             ptr = ptr.link;
         }
         return posts;
-    }   
-    
+    }
+
 }

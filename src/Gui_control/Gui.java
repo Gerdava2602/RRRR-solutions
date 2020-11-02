@@ -23,8 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
 /**
- *
- * @author German David
+ * Clase principal, menu principal
  */
 public class Gui extends javax.swing.JFrame {
     static infoPage tutor;
@@ -162,9 +161,9 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        this.setVisible(false);
         saveS= new SaveStage(this);
         saveS.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_saveActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

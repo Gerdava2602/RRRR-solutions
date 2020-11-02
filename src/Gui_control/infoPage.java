@@ -16,8 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
- *
- * @author German David
+ * Clase donde se muestra el tutorial para el usuario.
  */
 public class infoPage extends javax.swing.JFrame {
 
@@ -159,6 +158,7 @@ public class infoPage extends javax.swing.JFrame {
         der.setBackground(new java.awt.Color(0, 102, 153));
         der.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/flechadr.png"))); // NOI18N
         der.setBorder(null);
+        der.setBorderPainted(false);
         der.setContentAreaFilled(false);
         der.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         der.addActionListener(new java.awt.event.ActionListener() {
@@ -170,6 +170,7 @@ public class infoPage extends javax.swing.JFrame {
         izq.setBackground(new java.awt.Color(0, 102, 153));
         izq.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/flechaiz.png"))); // NOI18N
         izq.setBorder(null);
+        izq.setBorderPainted(false);
         izq.setContentAreaFilled(false);
         izq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         izq.addActionListener(new java.awt.event.ActionListener() {

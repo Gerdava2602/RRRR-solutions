@@ -43,17 +43,13 @@ public class ChooserFrame extends javax.swing.JFrame {
         escogeP.setContentAreaFilled(false);
         jButton2.setContentAreaFilled(false);
         jason = new Jason();
-        //chooser = new ChooserFrame(this);
         arbol = new Arbol();
         
-        users = new File("C:\\Users\\German David\\Desktop\\user.txt");
-        posts = new File("C:\\Users\\German David\\Desktop\\posts.txt");
-        comments = new File("C:\\Users\\German David\\Desktop\\comments.txt");
         
     }
 
         //Este método crea el fileChooser para poder navegar y encontrar los archivos
-    private static File createFileChooser(final JFrame frame) {
+    static File createFileChooser(final JFrame frame, String endswith) {
         
         String filename = File.separator+"tmp";
         //Crea el fileChooser
@@ -67,23 +63,21 @@ public class ChooserFrame extends javax.swing.JFrame {
                 return true;
             }
             final String name = f.getName();
-            return name.endsWith(".txt");
+            return name.endsWith(endswith);
         }
         
         //Agrega al descripción para que el usuario sepa que tipo de archivo debe encontrar
         @Override
         public String getDescription() {
-            return "*.txt";
+            return "*"+endswith;
         }
     });
         try{
         // Configura el tipo de mensaje para abrir el buscador de archivos
         fileChooser.showOpenDialog(frame);
         
-        System.out.println("File to open: " + fileChooser.getSelectedFile());
         return fileChooser.getSelectedFile();
         }catch(NullPointerException io){
-            System.out.println("El proceso fue cancelado, ingrese nuevamente el archivo");
             return null;
         }
         
@@ -91,7 +85,6 @@ public class ChooserFrame extends javax.swing.JFrame {
         // pop up an "Save File" file chooser dialog
         fileChooser.showSaveDialog(frame);
  
-        System.out.println("File to save: " + fileChooser.getSelectedFile());
         */
     }
 
@@ -108,6 +101,7 @@ public class ChooserFrame extends javax.swing.JFrame {
         scroll = new javax.swing.JScrollPane();
         text = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         escogeU = new javax.swing.JButton();
         escogeP = new javax.swing.JButton();
@@ -127,7 +121,7 @@ public class ChooserFrame extends javax.swing.JFrame {
         text.setEnabled(false);
         scroll.setViewportView(text);
 
-        getContentPane().add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, 600, 500));
+        getContentPane().add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 600, 500));
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setFont(new java.awt.Font("Dubai Light", 1, 36)); // NOI18N
@@ -136,72 +130,89 @@ public class ChooserFrame extends javax.swing.JFrame {
         jButton2.setText("Convertir");
         jButton2.setBorder(null);
         jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setOpaque(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 510, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 510, -1, -1));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/atras.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Dubai", 1, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 195, 24));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Usuarios");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 300, 30));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 300, 30));
 
         escogeU.setBackground(new java.awt.Color(0, 102, 204));
         escogeU.setFont(new java.awt.Font("Dubai Light", 1, 28)); // NOI18N
         escogeU.setForeground(new java.awt.Color(255, 255, 255));
         escogeU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/seleccionar.png"))); // NOI18N
         escogeU.setText("Escoger");
+        escogeU.setBorderPainted(false);
+        escogeU.setContentAreaFilled(false);
         escogeU.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        escogeU.setOpaque(false);
         escogeU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 escogeUActionPerformed(evt);
             }
         });
-        getContentPane().add(escogeU, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 300, 80));
+        getContentPane().add(escogeU, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 300, 80));
 
         escogeP.setBackground(new java.awt.Color(255, 255, 255));
         escogeP.setFont(new java.awt.Font("Dubai Light", 1, 28)); // NOI18N
         escogeP.setForeground(new java.awt.Color(255, 255, 255));
         escogeP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/seleccionar.png"))); // NOI18N
         escogeP.setText("Escoger");
+        escogeP.setBorderPainted(false);
+        escogeP.setContentAreaFilled(false);
         escogeP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         escogeP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 escogePActionPerformed(evt);
             }
         });
-        getContentPane().add(escogeP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 300, 80));
+        getContentPane().add(escogeP, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 300, 80));
 
         jLabel2.setFont(new java.awt.Font("Dubai", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 195, 24));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Posts");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 300, 30));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 300, 30));
 
         jLabel3.setFont(new java.awt.Font("Dubai", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 195, 24));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Comentarios");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 300, 30));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 300, 30));
 
         escogeC.setBackground(new java.awt.Color(255, 255, 255));
         escogeC.setFont(new java.awt.Font("Dubai Light", 1, 28)); // NOI18N
         escogeC.setForeground(new java.awt.Color(255, 255, 255));
         escogeC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/seleccionar.png"))); // NOI18N
         escogeC.setText("Escoger");
+        escogeC.setBorderPainted(false);
+        escogeC.setContentAreaFilled(false);
         escogeC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         escogeC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 escogeCActionPerformed(evt);
             }
         });
-        getContentPane().add(escogeC, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 300, -1));
+        getContentPane().add(escogeC, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 300, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fondo1.png"))); // NOI18N
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -215,16 +226,16 @@ public class ChooserFrame extends javax.swing.JFrame {
         text.setText("");
         try {
             //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
-            comments = createFileChooser(this);
+            comments = createFileChooser(this,".txt");
             br = new BufferedReader(new FileReader(comments));
             String st;
             while ((st = br.readLine()) != null)
             text.append(st+"\n");
             //Catchs para los dos tipos de excepciones que podríamos encontrar
         } catch (FileNotFoundException ex) {
-            System.out.println("Este archivo no pudo ser leido");;
+            JOptionPane.showMessageDialog(this, "El archivo no pudo ser leido");
         } catch (NullPointerException ex) {
-            System.out.println("Ha sucedido un error");;
+            JOptionPane.showMessageDialog(this, "El archivo no pudo ser leido");
         } catch (IOException ex) {
             Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -243,7 +254,7 @@ public class ChooserFrame extends javax.swing.JFrame {
         text.setText("");
         try {
             //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
-            posts = createFileChooser(this);
+            posts = createFileChooser(this,".txt");
             br = new BufferedReader(new FileReader(posts));
             String st;
             while ((st = br.readLine()) != null)
@@ -270,7 +281,7 @@ public class ChooserFrame extends javax.swing.JFrame {
         text.setText("");
         try {
             //Crea el bufferedReader y le agrega un fileReader que leerá el archivo seleccionado
-            users = createFileChooser(this);
+            users = createFileChooser(this, ".txt");
             br = new BufferedReader(new FileReader(users));
             String st;
             while ((st = br.readLine()) != null)
@@ -308,6 +319,11 @@ public class ChooserFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public JFrame getFrame() {
         return frame;
     }
@@ -316,6 +332,7 @@ public class ChooserFrame extends javax.swing.JFrame {
     private javax.swing.JButton escogeC;
     private javax.swing.JButton escogeP;
     private javax.swing.JButton escogeU;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

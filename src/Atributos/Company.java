@@ -5,15 +5,18 @@
  */
 package Atributos;
 
-/**
- *
- * @author German David
- */
+
 public class Company {
     String name;
     String catchPhrase;
     String bs;
-
+    
+    /**
+     * Constructor de compañia
+     * @param name nombre
+     * @param catchPhrase catchphrase
+     * @param bs bs
+     */
     public Company(String name, String catchPhrase, String bs) {
         this.name= name;
         this.catchPhrase = catchPhrase;
@@ -57,5 +60,14 @@ public class Company {
         this.bs = bs;
     }
     
+    /**
+     * Metodo que se utiliza para serializar
+     * @return El string de el objeto serializado
+     */
+    public String getSerialData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.name).append(",").append(this.catchPhrase).append(",").append(this.bs);
+        return sb.toString();
+    }
     
 }

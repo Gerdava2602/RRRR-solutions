@@ -5,17 +5,22 @@
  */
 package Atributos;
 
-/**
- *
- * @author German David
- */
+
 public class Direccion {
     String street;
     String suite;
     String city;
     String zipcode;
     Geo geo;
-
+    
+    /**
+     * Constructor de direccion
+     * @param street street
+     * @param suite suite
+     * @param city city
+     * @param zipcode zip
+     * @param geo geo
+     */
     public Direccion(String street, String suite, String city, String zipcode, Geo geo) {
         this.street = street;
         this.suite = suite;
@@ -27,7 +32,16 @@ public class Direccion {
     public Direccion() {
         geo = new Geo();
     }
-
+    
+    /**
+     * Constructor de direccion mas especifico
+     * @param street street
+     * @param suite suite
+     * @param city city
+     * @param zipcode zipcode
+     * @param lat latitud
+     * @param lng longitud
+     */
     public Direccion(String street, String suite, String city, String zipcode, String lat, String lng) {
         this.street = street;
         this.suite = suite;
@@ -85,12 +99,19 @@ public class Direccion {
         this.zipcode = zipcode;
     }
 
-    
-    
     public void createGeo() {
         this.geo = new Geo();
     }
     
+    /**
+     * Metodo que se utiliza para serializar
+     * @return El string de el objeto serializado
+     */
+    public String getSerialData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.street).append(",").append(this.suite).append(",").append(this.city).append(",").append(this.zipcode).append("\n").append(this.geo.getSerialData());
+        return sb.toString();
+    }
     
     
 }

@@ -10,8 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
- *
- * @author German David
+ * Panel donde se ponen las imagenes
  */
 public class ImagePanel extends JPanel{
     BufferedImage img;

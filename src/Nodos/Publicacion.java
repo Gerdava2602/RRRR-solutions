@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- *
- * @author German David
+ * Clase de las publicaciones
  */
 public class Publicacion extends Nodo{
     int userId;
@@ -21,6 +20,14 @@ public class Publicacion extends Nodo{
     Publicacion link;
     Comentario lastComment;
     
+    /**
+     * Constructor de publicacion.
+     * @param userId
+     * @param id
+     * @param title
+     * @param body
+     * @param link 
+     */
     public Publicacion(int userId, int id, String title, String body, Publicacion link) {
         this.userId = userId;
         this.id = id;
@@ -102,6 +109,10 @@ public class Publicacion extends Nodo{
         this.lastComment = lastComment;
     }
     
+    /**
+     * Metodo para obtener la cantidad de comentarios de un post.
+     * @return la cantidad de comentarios.
+     */
     public int commentsSize(){
         Comentario c = comentarioPtr;
         int count=0;
@@ -111,4 +122,20 @@ public class Publicacion extends Nodo{
         }
         return count;
     }
+    
+    /**
+     * Metodo que se utiliza para serializar
+     * @return El string de el objeto serializado
+     */
+    public String getSerialData(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("P").append(",").append(this.userId).append(",").append(this.id).append(",").append(this.title).append(",").append(this.body.replace("\n", "/n")).append("\n");
+        Comentario c = this.comentarioPtr;
+        while (c != null) {
+            sb.append(c.getSerialData());
+            c = c.link;
+        }
+        return sb.toString();
+    }
+    
 }

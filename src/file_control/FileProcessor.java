@@ -19,8 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author German David
+ * El procesador de archivos, el cual convertira los archivos json.
  */
 public class FileProcessor {
     ArrayList<File> files;
@@ -32,11 +31,16 @@ public class FileProcessor {
         sb = new StringBuilder();
         files = new ArrayList();
     }
-
+    
+    /**
+     * Motodo que extrae los datos del archivo json.
+     * @param file el archivo del cual extraeremos los datos
+     * @return una lista con los datos
+     * @throws IOException si no encuentra el archivo.
+     */
     public Lista extract(File file) throws IOException {
         Lista l = null;
         Lista interna = l;
-        ArrayList<HashMap> array = new ArrayList();
         Pattern llaves,inicio,fin, valores;
         Matcher bloque, matcherK, matcherV;
         
@@ -76,12 +80,9 @@ public class FileProcessor {
                             map.put("nameC", value);
                         else if(matcherK.group(1).equals("body")){
                             value = value.replace("\\n", "\n");
-                            System.out.println(value);
                             map.put(matcherK.group(1), value);
                         }else
                             map.put(matcherK.group(1), value);
-                        //System.out.println(matcherK.group(1)+"/"+value);
-                        
                     }
                     sb.append(line+"\n");
                     if(opened.find())
@@ -104,10 +105,14 @@ public class FileProcessor {
                 line = br.readLine();
             }
         }
-        
         return l;
     }
-
+    
+    /**
+     * Metodo para suprimir las comas y puntos de lo que extrajimos en el metodo extract
+     * @param group el string a depurar
+     * @return el string depurado.
+     */
     private String depurar(String group) {
         Pattern depura = Pattern.compile("([^\\{,\"]+)");
         Matcher matcher = depura.matcher(group);
